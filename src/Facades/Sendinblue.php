@@ -1,15 +1,5 @@
 <?php
 
-/**
- * @package    Mograine\Sendinblue
- * @author     Thomas Van Steenwinckel <code@1234.pm>
- * @link       https://github.com/vansteen/laravel-sendinblue
- * @license    https://github.com/vansteen/laravel-sendinblue/blob/master/license.md (MIT License)
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Mograine\Sendinblue\Facades;
 
 use Illuminate\Support\Facades\Facade;
