@@ -6,11 +6,9 @@ use Exception;
 use Illuminate\Notifications\Notification;
 
 /**
- * Class SendInBlueTemplateChannel.
- *
  * Mail template channel for Sendinblue transactional template.
  */
-class SendInBlueTemplateChannel
+class SendInBlueMailTemplateChannel
 {
     /**
      * Send the given notification.
@@ -23,11 +21,11 @@ class SendInBlueTemplateChannel
     public function send($notifiable, Notification $notification)
     {
         if (!method_exists($notification, 'toMailTemplate')) {
-            throw new Exception('SendInBlueTemplateChannel called with notification parameter without toMailTemplate method');
+            throw new Exception('SendInBlueMailTemplateChannel : notification do not have "toMailTemplate" method');
         }
 
         $message = $notification->toMailTemplate($notifiable);
         $message->to($notifiable->email);
-        Sendinblue::SendSendInBlueTemplate($message);
+        Sendinblue::sendSendInBlueTemplate($message);
     }
 }

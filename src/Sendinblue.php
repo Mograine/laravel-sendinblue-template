@@ -61,15 +61,19 @@ class Sendinblue
         $this->configuration = $configuration;
     }
 
-    public function SendSendInBlueTemplate(TemplateMessage $templateMessage): CreateSmtpEmail|false
+    public function getApi(SendinblueApiEnum $api)
+    {
+        return new $api->value(
+            new Client(),
+            $this->getConfiguration()
+        );
+    }
+
+    public function sendSendInBlueTemplate(TemplateMessage $templateMessage): CreateSmtpEmail|false
     {
         try {
-            $apiInstance = new TransactionalEmailsApi(
-                new Client(),
-                self::getConfiguration()
-            );
-
-            return $apiInstance->sendTransacEmail($templateMessage->getSmtpEmail());
+            $transactionalApi = $this->getApi(SendinblueApiEnum::TransactionalEmailsApi);
+            return $transactionalApi->sendTransacEmail($templateMessage->getSmtpEmail());
         }
         catch (\Exception $exception) {
             Log::channel('email')->error("Couldn't send SendInBlue template email", [ "error" => $exception->getMessage() ]);
