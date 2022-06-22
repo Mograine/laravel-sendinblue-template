@@ -1,0 +1,42 @@
+{
+  "name": "mograine/laravel-sendinblue-template",
+  "type": "library",
+  "description": "A Laravel 7/8/9 service provider, facade and config file for the SendinBlue's API v3 official PHP library.",
+  "keywords": [
+    "laravel",
+    "sendinblue"
+  ],
+  "homepage": "https://github.com/mograine/laravel-sendinblue-template",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pierre Ghiot",
+      "email": "ghiot.pierre@gmail.com",
+      "homepage": "https://github.com/mograine",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.0",
+    "illuminate/support": "^7.0|^8.0|^9.0",
+    "sendinblue/api-v3-sdk": "^6.1|^7.0|^8.0"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Mograine\\Sendinblue\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Mograine\\Sendinblue\\SendinblueServiceProvider"
+      ],
+      "aliases": {
+        "Sendinblue": "Mograine\\Sendinblue\\Facades\\Sendinblue"
+      }
+    }
+  },
+  "minimum-stability": "stable"
+}
