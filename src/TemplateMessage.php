@@ -40,7 +40,10 @@ class TemplateMessage
 
     public function getSmtpEmail(): SendSmtpEmail
     {
-        $this->sendSmtpEmail['params'] = (object)$this->attributes;
+        if (!empty($this->attributes)) {
+            $this->sendSmtpEmail['params'] = (object)$this->attributes;
+        }
+
         return $this->sendSmtpEmail;
     }
 }
