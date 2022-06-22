@@ -1,4 +1,4 @@
-# Laravel Sendinblue
+# Laravel Sendinblue Notification Template
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -28,47 +28,62 @@ Now you need to set your configuration using **environment variables**.
 Go the the Sendinblue API settings and add the v3 API key to your `.env` file.
 
 ```bash
-SENDINBLUE_APIKEY=xkeysib-XXXXXXXXXXXXXXXXXXX
+SENDINBLUE_API_KEY=xkeysib-XXXXXXXXXXXXXXXXXXX
+SENDINBLUE_EMAIL=defaultEmail
+SENDINBLUE_NAME=defaultName
 ```
 
 ## Usage
 
-To test it, you can add the folowing code in routes.php.
+This package provide a built-in notification channel to send transactional template emails.
+
+To test it, create a new notification using the ``php artisan make:notification`` command.
+
+Example of usage :
 
 ```php
-// routes.php
-...
-use Mograine\Sendinblue\Facades\Sendinblue;
+<?php
 
-Route::get('/test', function () {
+namespace App\Notifications;
 
-    // Configure API keys authorization according to the config file
-    $config = Sendinblue::getConfiguration();
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
+use Mograine\Sendinblue\SendInBlueMailTemplateChannel;
+use Mograine\Sendinblue\TemplateMessage;
 
-    // Uncomment below to setup prefix (e.g. Bearer) for API keys, if needed
-    // $config->setApiKeyPrefix('api-key', 'Bearer');
-    // $config->setApiKeyPrefix('partner-key', 'Bearer');
+class NewOfferNotification extends Notification
+{
+    use Queueable;
 
-    $apiInstance = new \SendinBlue\Client\Api\ListsApi(
-        // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-        // This is optional, `GuzzleHttp\Client` will be used as default.
-        new GuzzleHttp\Client(),
-        $config
-    );
-
-    try {
-        $result = $apiInstance->getLists();
-        dd($result);
-    } catch (Exception $e) {
-        echo 'Exception when calling AccountApi->getAccount: ', $e->getMessage(), PHP_EOL;
+    public function via($notifiable)
+    {
+        return [ SendInBlueMailTemplateChannel::class ];
     }
 
-});
+    public function toMailTemplate($notifiable): TemplateMessage
+    {
+        $templateId = 1;
+        $templateMessage = new TemplateMessage($templateId);
+        $templateMessage->attribute('USER_EMAIL', $notifiable->email);
+        return $templateMessage;
+    }
+}
 ```
 
-To get a idea of the of the API endpoints, visit the API [readme file](https://github.com/sendinblue/APIv3-php-library#documentation-for-api-endpoints).
+You can also get any V3 SendInBlue API using the built-in getAPI method :
 
-Be sure to visit the SendinBlue official [documentation website](https://sendinblue.readme.io/docs) for additional information about our API.
+```php
+use Mograine\Sendinblue\SendinblueApiEnum;
+use Mograine\Sendinblue\Facades\Sendinblue;
+
+// We first get the API we want
+$transactionalApi = Sendinblue::getApi(SendinblueApiEnum::TransactionalEmailsApi);
+
+// We can then easily use it, example :
+$transactionalApi->deleteBlockedDomain('exampleSendinblueDomain.com');
+```
+
+Be sure to visit the SendinBlue official [documentation website](https://sendinblue.readme.io/docs) for additional information about the API.
 
 ## Contributing
 
