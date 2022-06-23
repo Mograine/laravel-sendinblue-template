@@ -4,6 +4,7 @@ namespace Mograine\Sendinblue;
 
 use Exception;
 use Illuminate\Notifications\Notification;
+use Mograine\Sendinblue\Facades\Sendinblue as SendinblueFacade;
 
 /**
  * Mail template channel for Sendinblue transactional template.
@@ -26,6 +27,6 @@ class SendInBlueMailTemplateChannel
 
         $message = $notification->toMailTemplate($notifiable);
         $message->to($notifiable->email);
-        Sendinblue::sendSendInBlueTemplate($message);
+        SendinblueFacade::sendSendInBlueTemplate($message);
     }
 }
