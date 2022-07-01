@@ -9,7 +9,7 @@ use Mograine\Sendinblue\Facades\Sendinblue as SendinblueFacade;
 /**
  * Mail template channel for Sendinblue transactional template.
  */
-class SendInBlueMailTemplateChannel
+class SendinblueMailTemplateChannel
 {
     /**
      * Send the given notification.

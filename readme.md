@@ -48,7 +48,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Mograine\Sendinblue\SendInBlueMailTemplateChannel;
+use Mograine\Sendinblue\SendinblueMailTemplateChannel;
 use Mograine\Sendinblue\TemplateMessage;
 
 class NewOfferNotification extends Notification
@@ -57,7 +57,7 @@ class NewOfferNotification extends Notification
 
     public function via($notifiable)
     {
-        return [ SendInBlueMailTemplateChannel::class ];
+        return [ SendinblueMailTemplateChannel::class ];
     }
 
     public function toMailTemplate($notifiable): TemplateMessage
