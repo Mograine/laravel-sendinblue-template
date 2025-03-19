@@ -25,8 +25,17 @@ class SendinblueMailTemplateChannel
             throw new Exception('SendInBlueMailTemplateChannel : notification do not have "toMailTemplate" method');
         }
 
+        $email = '';
+        if (is_string($notifiable)) {
+            $email = $notifiable; // Direct email string
+        } elseif (is_object($notifiable) && property_exists($notifiable, 'email')) {
+            $email = $notifiable->email;
+        } else {
+            throw new Exception('SendInBlueMailTemplateChannel : Unable to determine recipient email');
+        }
+
         $message = $notification->toMailTemplate($notifiable);
-        $message->to($notifiable->email);
+        $message->to($email);
         SendinblueFacade::sendSendInBlueTemplate($message);
     }
 }
