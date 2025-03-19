@@ -5,6 +5,7 @@ namespace Mograine\Sendinblue;
 use Exception;
 use Illuminate\Notifications\Notification;
 use Mograine\Sendinblue\Facades\Sendinblue as SendinblueFacade;
+use Illuminate\Notifications\AnonymousNotifiable;
 
 /**
  * Mail template channel for Sendinblue transactional template.
