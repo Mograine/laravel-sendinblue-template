@@ -59,11 +59,13 @@ class TemplateMessage
     public function from(string $email, string $name): self
     {
         $this->sendSmtpEmail["sender"] = new SendSmtpEmailSender(["name" => $name, "email" => $email]);
+        return $this;
     }
 
     public function replyTo(string $email): self
     {
         $this->sendSmtpEmail["replyTo"] = new SendSmtpEmailReplyTo(["email" => $email]);
+        return $this;
     }
 
     public function attribute(string $key, string $value): self
