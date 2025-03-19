@@ -26,8 +26,8 @@ class SendinblueMailTemplateChannel
         }
 
         $email = '';
-        if (is_string($notifiable)) {
-            $email = $notifiable; // Direct email string
+        if ($notifiable instanceof AnonymousNotifiable) {
+            $email = $notifiable->routes['mail']; // Direct email string
         } elseif (is_object($notifiable) && property_exists($notifiable, 'email')) {
             $email = $notifiable->email;
         } else {
