@@ -21,10 +21,6 @@ class TemplateMessage
     private array $attributes = [];
     private array $messageVersions = [];
 
-    /**
-     * @param int $templateId
-     * @param bool $useMessageVersions true
-     */
     public function __construct(
         int $templateId,
         private readonly bool $useMessageVersions = true
@@ -37,8 +33,6 @@ class TemplateMessage
     }
 
     /**
-     * @param string $email
-     * @return $this
      * @throws Exception
      */
     public function to(string $email): self
@@ -62,21 +56,22 @@ class TemplateMessage
         return $this;
     }
 
-    /**
-     * @param string $key
-     * @param string $value
-     * @return $this
-     */
+    public function from(string $email, string $name): self
+    {
+        $this->sendSmtpEmail["sender"] = new SendSmtpEmailSender(["name" => $name, "email" => $email]);
+    }
+
+    public function replyTo(string $email): self
+    {
+        $this->sendSmtpEmail["replyTo"] = new SendSmtpEmailReplyTo(["email" => $email]);
+    }
+
     public function attribute(string $key, string $value): self
     {
         $this->attributes[$key] = $value;
         return $this;
     }
 
-    /**
-     * @param string $tag
-     * @return $this
-     */
     public function tag(string $tag): self
     {
         $this->tags[] = $tag;
